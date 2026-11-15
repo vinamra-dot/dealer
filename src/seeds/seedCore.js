@@ -7,10 +7,10 @@ export async function getCoreSeedData() {
   const dealership = {
     id: dId,
     name: 'Apex Mobility Motors',
-    city: 'Jaipur',
-    tier: 'Tier-2',
+    city: 'Mumbai & Pune',
+    tier: 'Tier-1',
     oem_brand: 'Tata Motors',
-    address: 'Plot 42, Transport Nagar, Tonk Road, Jaipur'
+    address: 'Apex Towers, New Link Road, Andheri West, Mumbai & Baner, Pune, Maharashtra 400053'
   };
 
   const users = [

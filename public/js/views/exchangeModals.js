@@ -17,7 +17,7 @@ export function showExchangeModal(onSuccess) {
       <div class="p-3 bg-cyan-50 rounded-xl border border-cyan-200 space-y-1.5">
         <label class="block text-xs font-bold text-cyan-900">Fetch RTO Details from Parivahan</label>
         <div class="flex gap-2">
-          <input type="text" id="rtoRegInput" value="RJ-14-CE-8821" class="flex-1 bg-white border border-cyan-300 rounded-lg px-3 py-1.5 text-xs font-mono uppercase focus:outline-none">
+          <input type="text" id="rtoRegInput" value="MH-02-DW-8821" class="flex-1 bg-white border border-cyan-300 rounded-lg px-3 py-1.5 text-xs font-mono uppercase focus:outline-none">
           <button type="button" id="vahanFetchBtn" class="min-h-[34px] px-3 bg-cyan-700 hover:bg-cyan-800 text-white rounded-lg text-xs font-semibold">
             <i class="fa-solid fa-cloud-arrow-down mr-1"></i> Auto-Fetch
           </button>

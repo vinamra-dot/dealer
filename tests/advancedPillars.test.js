@@ -71,16 +71,26 @@ test('Advanced Pillar 2: Dealership Accounts & P&L GPV Ledger', async () => {
 });
 
 test('Advanced Pillar 3: Government RTO & KYC Verification APIs', async () => {
-  // Parivahan Vahan RC Lookup
+  // Parivahan Vahan RC Lookup (Maharashtra Mumbai / Pune)
   const rcRes = await fetch(`${baseUrl}/api/rto/vahan-lookup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ registration_number: 'RJ-14-CC-8821' })
+    body: JSON.stringify({ registration_number: 'MH-02-DW-8821' })
   });
   assert.equal(rcRes.status, 200);
   const rcData = await rcRes.json();
-  assert.equal(rcData.data.maker_model, 'Tata Nexon EV Max');
   assert.equal(rcData.data.rc_status, 'ACTIVE');
+  assert.ok(rcData.data.rto_authority.includes('Maharashtra'));
+
+  // Pune Central RTO lookup
+  const puneRes = await fetch(`${baseUrl}/api/rto/vahan-lookup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ reg_number: 'MH-12-EV-1029' })
+  });
+  assert.equal(puneRes.status, 200);
+  const puneData = await puneRes.json();
+  assert.ok(puneData.data.rto_authority.includes('Pune Central RTO'));
 
   // NSDL PAN Verification
   const panRes = await fetch(`${baseUrl}/api/rto/pan-verify`, {
@@ -92,6 +102,7 @@ test('Advanced Pillar 3: Government RTO & KYC Verification APIs', async () => {
   const panData = await panRes.json();
   assert.equal(panData.data.pan_status, 'VALID');
   assert.equal(panData.data.aadhaar_seeding_status, 'LINKED');
+  assert.ok(panData.data.jurisdiction.includes('MUMBAI'));
 });
 
 test('Advanced Pillar 4: Webhook & Third-Party Integrations Engine', async () => {

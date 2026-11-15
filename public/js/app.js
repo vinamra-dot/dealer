@@ -91,7 +91,7 @@ function updateHeaderUI() {
     document.getElementById('userNameDisplay').textContent = state.user.name;
     document.getElementById('userRoleBadge').textContent = state.user.role;
     if (state.user.dealership_name) {
-      document.getElementById('headerDealership').textContent = `${state.user.dealership_name} • Jaipur`;
+      document.getElementById('headerDealership').textContent = `${state.user.dealership_name} • Mumbai & Pune, MH`;
     }
   }
 }

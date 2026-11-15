@@ -13,8 +13,8 @@ export function printTaxInvoice(booking) {
       <div class="flex justify-between items-start border-b border-slate-300 pb-4">
         <div>
           <h2 class="text-xl font-black text-blue-900 tracking-tight">APEX MOBILITY MOTORS PVT. LTD.</h2>
-          <p class="text-slate-600">Plot 42, Transport Nagar, Tonk Road, Jaipur - 302015</p>
-          <p class="text-slate-600 font-mono">GSTIN: 08AAACA1234F1Z8 • State Code: 08 (Rajasthan)</p>
+          <p class="text-slate-600">Apex Towers, New Link Road, Andheri West, Mumbai - 400053 (Pune: Baner Road)</p>
+          <p class="text-slate-600 font-mono">GSTIN: 27AAACA1234F1Z8 • State Code: 27 (Maharashtra)</p>
         </div>
         <div class="text-right">
           <span class="bg-slate-100 text-slate-800 font-bold px-2.5 py-1 rounded border border-slate-300 uppercase tracking-wider text-[11px]">Tax Invoice</span>

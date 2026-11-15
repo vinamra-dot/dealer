@@ -53,7 +53,7 @@ export async function renderIntegrations(container) {
           <h3 class="text-sm font-bold text-slate-900 flex items-center gap-1.5"><i class="fa-solid fa-car-rear text-cyan-600"></i> Parivahan Vahan RC Lookup</h3>
           <p class="text-xs text-slate-500">Query Ministry of Road Transport database for used car exchange.</p>
           <div class="flex gap-2">
-            <input type="text" id="vahanInput" value="RJ-14-CE-8821" class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs font-mono uppercase focus:outline-none">
+            <input type="text" id="vahanInput" value="MH-02-DW-8821" class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs font-mono uppercase focus:outline-none">
             <button id="lookupVahanBtn" class="min-h-[36px] px-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-semibold shadow-2xs">Fetch RC</button>
           </div>
           <div id="vahanResult" class="hidden p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs font-mono text-slate-700 space-y-1"></div>
