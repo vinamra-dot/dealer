@@ -1,6 +1,7 @@
 import { api } from '../api.js';
 import { printTaxInvoice, printQuotationDoc } from '../utils/printDocument.js';
 import { openWhatsAppChat } from '../utils/whatsapp.js';
+import { renderTransportGps } from './transportGpsView.js';
 
 export function renderTracking(container) {
   container.innerHTML = `
@@ -96,6 +97,9 @@ export function renderTracking(container) {
             <button id="custInvBtn" class="min-h-[40px] px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs rounded-lg border border-slate-300 transition flex items-center space-x-1.5">
               <i class="fa-solid fa-file-invoice text-slate-600"></i><span>Download Tax Invoice</span>
             </button>
+            <button id="custGpsBtn" class="min-h-[40px] px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold text-xs rounded-lg transition shadow-2xs flex items-center space-x-1.5">
+              <i class="fa-solid fa-satellite-dish"></i><span>Factory Transit GPS</span>
+            </button>
             <button id="custChatBtn" class="min-h-[40px] px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg transition shadow-2xs flex items-center space-x-1.5">
               <i class="fa-brands fa-whatsapp"></i><span>Chat with Relationship Manager</span>
             </button>
@@ -105,6 +109,10 @@ export function renderTracking(container) {
 
       document.getElementById('custInvBtn')?.addEventListener('click', () => {
         printTaxInvoice({ otf_number: order.otf_number, customer_name: order.customer_name, vehicle_model: order.vehicle_model, vin: order.vin, booking_amount: order.deposit_paid });
+      });
+
+      document.getElementById('custGpsBtn')?.addEventListener('click', () => {
+        renderTransportGps(container, order.otf_number);
       });
 
       document.getElementById('custChatBtn')?.addEventListener('click', () => {

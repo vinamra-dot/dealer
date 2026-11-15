@@ -23,6 +23,12 @@ import rtoRoutes from './rtoRoutes.js';
 import ledgerRoutes from './ledgerRoutes.js';
 import trackingRoutes from './trackingRoutes.js';
 import cronRoutes from './cronRoutes.js';
+import aiBotRoutes from './aiBotRoutes.js';
+import tallyRoutes from './tallyRoutes.js';
+import transportGpsRoutes from './transportGpsRoutes.js';
+import auctionRoutes from './auctionRoutes.js';
+import bodyShopRoutes from './bodyShopRoutes.js';
+import hsrpFastagRoutes from './hsrpFastagRoutes.js';
 import { isDbInMemory, getLastDbError } from '../config/db.js';
 
 const apiRouter = Router();
@@ -52,6 +58,12 @@ apiRouter.use('/rto', rtoRoutes);
 apiRouter.use('/ledger', ledgerRoutes);
 apiRouter.use('/tracking', trackingRoutes);
 apiRouter.use('/cron', cronRoutes);
+apiRouter.use('/bot', aiBotRoutes);
+apiRouter.use('/tally', tallyRoutes);
+apiRouter.use('/transport', transportGpsRoutes);
+apiRouter.use('/auctions', auctionRoutes);
+apiRouter.use('/bodyshop', bodyShopRoutes);
+apiRouter.use('/compliance', hsrpFastagRoutes);
 
 apiRouter.get('/health', (req, res) => {
   res.json({

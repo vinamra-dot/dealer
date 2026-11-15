@@ -2,6 +2,7 @@ import { query, initDb } from '../config/db.js';
 import { getCoreSeedData } from './seedCore.js';
 import { getWorkflowSeedData } from './seedWorkflow.js';
 import { runExtensionSeeds } from './runExtensionSeeds.js';
+import { runUltimateSeeds } from './runUltimateSeeds.js';
 
 export async function runSeeds() {
   console.log('[Seeds] Seeding realistic enterprise dealership dataset...');
@@ -122,6 +123,7 @@ export async function runSeeds() {
   }
 
   await runExtensionSeeds();
+  await runUltimateSeeds();
 
   console.log('[Seeds] Successfully seeded complete realistic dealership operations database.');
 }

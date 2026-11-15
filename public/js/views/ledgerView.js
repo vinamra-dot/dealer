@@ -14,10 +14,16 @@ export async function renderLedger(container) {
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Dealership Accounts & P&L Ledger</h2>
           <p class="text-sm text-slate-500">Gross Profit per Vehicle (GPV), OEM invoice wholesale margins & commission income.</p>
         </div>
-        <button id="exportLedgerCsvBtn" class="min-h-[44px] px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
-          <i class="fa-solid fa-file-excel"></i>
-          <span>Export to Excel (.csv)</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="downloadTallyXmlBtn" class="min-h-[44px] px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-semibold flex items-center space-x-1.5 shadow-2xs transition">
+            <i class="fa-solid fa-file-code text-indigo-600"></i>
+            <span>Tally Prime XML</span>
+          </button>
+          <button id="exportLedgerCsvBtn" class="min-h-[44px] px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
+            <i class="fa-solid fa-file-excel"></i>
+            <span>Export (.csv)</span>
+          </button>
+        </div>
       </div>
 
       <!-- KPI Summary -->
@@ -114,5 +120,24 @@ export async function renderLedger(container) {
       l.otf_number, l.customer_name, l.vehicle_model, l.vin, l.ex_showroom_price, l.oem_invoice_cost, l.front_end_margin, l.finance_payout, l.insurance_commission, l.accessories_profit, l.dealer_discount, l.net_dealership_margin
     ]);
     exportTableToCsv('ApexMotors_Dealership_PL_GPV_Ledger', headers, rows);
+  });
+
+  document.getElementById('downloadTallyXmlBtn')?.addEventListener('click', async () => {
+    try {
+      const res = await fetch('/api/tally/sales-xml', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('df_token')}` }
+      });
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Tally_Sales_${new Date().toISOString().slice(0, 10)}.xml`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Tally export error: ' + err.message);
+    }
   });
 }

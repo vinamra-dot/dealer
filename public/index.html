@@ -80,70 +80,35 @@
       <aside id="sidebarNav" class="fixed md:static inset-y-0 left-0 z-30 w-64 bg-white border-r border-slate-200 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col pt-16 md:pt-0 shadow-sm md:shadow-none">
         <div class="p-3.5 space-y-1 overflow-y-auto flex-1">
           <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">Showroom & Sales</p>
-          <button data-tab="dashboard" class="nav-tab active-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-chart-line w-4 text-blue-600"></i><span>Executive Cockpit</span>
-          </button>
-          <button data-tab="leads" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-users w-4 text-amber-600"></i><span>Lead Pipeline</span>
-          </button>
-          <button data-tab="testDrives" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-car w-4 text-emerald-600"></i><span>Test Drive Hub</span>
-          </button>
-          <button data-tab="quotes" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-file-invoice-dollar w-4 text-purple-600"></i><span>Quotation Builder</span>
-          </button>
-          <button data-tab="bookings" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-key w-4 text-cyan-600"></i><span>Vehicle Bookings</span>
-          </button>
-          <button data-tab="loanComparator" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-calculator w-4 text-indigo-600"></i><span>Bank EMI Comparator</span>
-          </button>
-          <button data-tab="kyc" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-id-card w-4 text-blue-600"></i><span>Customer KYC Vault</span>
-          </button>
-          <button data-tab="exchange" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-car-side w-4 text-amber-600"></i><span>Used Car Exchange</span>
-          </button>
+          <button data-tab="dashboard" class="nav-tab active-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-chart-line w-4 text-blue-600"></i><span>Executive Cockpit</span></button>
+          <button data-tab="leads" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-users w-4 text-amber-600"></i><span>Lead Pipeline</span></button>
+          <button data-tab="aibot" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-robot w-4 text-purple-600"></i><span>AI Inbound Bot</span></button>
+          <button data-tab="testDrives" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-car w-4 text-emerald-600"></i><span>Test Drive Hub</span></button>
+          <button data-tab="quotes" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-file-invoice-dollar w-4 text-purple-600"></i><span>Quotation Builder</span></button>
+          <button data-tab="bookings" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-key w-4 text-cyan-600"></i><span>Vehicle Bookings</span></button>
+          <button data-tab="loanComparator" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-calculator w-4 text-indigo-600"></i><span>Bank EMI Comparator</span></button>
+          <button data-tab="kyc" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-id-card w-4 text-blue-600"></i><span>Customer KYC Vault</span></button>
+          <button data-tab="exchange" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-car-side w-4 text-amber-600"></i><span>Used Car Exchange</span></button>
+          <button data-tab="auctions" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-gavel w-4 text-amber-600"></i><span>Used Car Auctions</span></button>
 
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-2.5 pb-1">Finance & Ledger</p>
-          <button data-tab="finance" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-building-columns w-4 text-indigo-600"></i><span>Finance & DO Desk</span>
-          </button>
-          <button data-tab="ledger" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-chart-pie w-4 text-emerald-600"></i><span>Dealership P&L Ledger</span>
-          </button>
-          <button data-tab="stockyard" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-warehouse w-4 text-orange-600"></i><span>Stockyard & Gatepass</span>
-          </button>
-          <button data-tab="deliveryProtocol" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-champagne-glasses w-4 text-emerald-600"></i><span>VIP Delivery Protocol</span>
-          </button>
-          <button data-tab="claims" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-receipt w-4 text-rose-600"></i><span>OEM Claim Recovery</span>
-          </button>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-2.5 pb-1">Finance & Logistics</p>
+          <button data-tab="finance" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-building-columns w-4 text-indigo-600"></i><span>Finance & DO Desk</span></button>
+          <button data-tab="ledger" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-chart-pie w-4 text-emerald-600"></i><span>Dealership P&L Ledger</span></button>
+          <button data-tab="stockyard" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-warehouse w-4 text-orange-600"></i><span>Stockyard & Gatepass</span></button>
+          <button data-tab="transport" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-truck-fast w-4 text-cyan-600"></i><span>Factory Transit GPS</span></button>
+          <button data-tab="compliance" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-tags w-4 text-blue-600"></i><span>HSRP & FASTag Desk</span></button>
+          <button data-tab="deliveryProtocol" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-champagne-glasses w-4 text-emerald-600"></i><span>VIP Delivery Protocol</span></button>
+          <button data-tab="claims" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-receipt w-4 text-rose-600"></i><span>OEM Claim Recovery</span></button>
 
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-2.5 pb-1">Workshop & Public Hub</p>
-          <button data-tab="workshop" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-wrench w-4 text-indigo-600"></i><span>Service Workshop</span>
-          </button>
-          <button data-tab="parts" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-boxes-stacked w-4 text-amber-600"></i><span>Spare Parts & Bins</span>
-          </button>
-          <button data-tab="retention" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-star w-4 text-rose-600"></i><span>CSAT & Retention</span>
-          </button>
-          <button data-tab="tracking" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-satellite-dish w-4 text-cyan-600"></i><span>Track My Car (Public)</span>
-          </button>
-          <button data-tab="integrations" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-network-wired w-4 text-blue-600"></i><span>API Hub & Webhooks</span>
-          </button>
-          <button data-tab="salesTargets" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-bullseye w-4 text-blue-600"></i><span>Sales Targets & KPIs</span>
-          </button>
-          <button data-tab="team" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
-            <i class="fa-solid fa-users-gear w-4 text-indigo-600"></i><span>Team & Roles</span>
-          </button>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-2.5 pb-1">Workshop & Operations</p>
+          <button data-tab="workshop" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-wrench w-4 text-indigo-600"></i><span>Service Workshop</span></button>
+          <button data-tab="bodyshop" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-car-burst w-4 text-rose-600"></i><span>Accidental Body Shop</span></button>
+          <button data-tab="parts" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-boxes-stacked w-4 text-amber-600"></i><span>Spare Parts & Bins</span></button>
+          <button data-tab="retention" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-star w-4 text-rose-600"></i><span>CSAT & Retention</span></button>
+          <button data-tab="tracking" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-satellite-dish w-4 text-cyan-600"></i><span>Track My Car (Public)</span></button>
+          <button data-tab="integrations" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-network-wired w-4 text-blue-600"></i><span>API Hub & Webhooks</span></button>
+          <button data-tab="salesTargets" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-bullseye w-4 text-blue-600"></i><span>Sales Targets & KPIs</span></button>
+          <button data-tab="team" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left"><i class="fa-solid fa-users-gear w-4 text-indigo-600"></i><span>Team & Roles</span></button>
         </div>
       </aside>
 

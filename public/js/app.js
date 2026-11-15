@@ -20,6 +20,11 @@ import { renderRetention } from './views/retentionView.js';
 import { renderLedger } from './views/ledgerView.js';
 import { renderTracking } from './views/trackingView.js';
 import { renderIntegrations } from './views/integrationsView.js';
+import { renderAiBot } from './views/aiBotView.js';
+import { renderTransportGps } from './views/transportGpsView.js';
+import { renderAuctions } from './views/auctionView.js';
+import { renderBodyShop } from './views/bodyShopView.js';
+import { renderHsrpFastag } from './views/hsrpFastagView.js';
 import { setupHeaderControls } from './headerControls.js';
 
 const viewMap = {
@@ -31,14 +36,19 @@ const viewMap = {
   loanComparator: renderLoanComparator,
   kyc: renderKyc,
   exchange: renderExchange,
+  auctions: renderAuctions,
   finance: renderFinance,
   ledger: renderLedger,
   stockyard: renderStockyard,
+  transport: renderTransportGps,
   deliveryProtocol: renderDeliveryProtocol,
   claims: renderClaims,
   workshop: renderWorkshop,
+  bodyshop: renderBodyShop,
   parts: renderParts,
+  compliance: renderHsrpFastag,
   retention: renderRetention,
+  aibot: renderAiBot,
   tracking: renderTracking,
   integrations: renderIntegrations,
   salesTargets: renderSalesTargets,
@@ -46,14 +56,14 @@ const viewMap = {
 };
 
 const rolePermissions = {
-  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'ledger', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'tracking', 'integrations', 'salesTargets', 'team'],
-  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'ledger', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'tracking', 'integrations', 'salesTargets', 'team'],
-  SALES_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'ledger', 'retention', 'tracking', 'salesTargets'],
-  SALES_CONSULTANT: ['leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'retention', 'tracking', 'salesTargets'],
-  TELECALLER: ['leads', 'retention', 'tracking'],
-  FINANCE_HEAD: ['bookings', 'finance', 'ledger', 'loanComparator', 'kyc', 'exchange', 'claims', 'tracking'],
-  LOGISTICS_PDI: ['stockyard', 'bookings', 'deliveryProtocol', 'workshop', 'parts', 'tracking'],
-  DRIVER: ['stockyard', 'workshop', 'tracking']
+  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'auctions', 'finance', 'ledger', 'stockyard', 'transport', 'deliveryProtocol', 'claims', 'workshop', 'bodyshop', 'parts', 'compliance', 'retention', 'aibot', 'tracking', 'integrations', 'salesTargets', 'team'],
+  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'auctions', 'finance', 'ledger', 'stockyard', 'transport', 'deliveryProtocol', 'claims', 'workshop', 'bodyshop', 'parts', 'compliance', 'retention', 'aibot', 'tracking', 'integrations', 'salesTargets', 'team'],
+  SALES_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'auctions', 'ledger', 'retention', 'aibot', 'tracking', 'salesTargets'],
+  SALES_CONSULTANT: ['leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'auctions', 'retention', 'aibot', 'tracking', 'salesTargets'],
+  TELECALLER: ['leads', 'retention', 'aibot', 'tracking'],
+  FINANCE_HEAD: ['bookings', 'finance', 'ledger', 'loanComparator', 'kyc', 'exchange', 'compliance', 'claims', 'tracking'],
+  LOGISTICS_PDI: ['stockyard', 'transport', 'bookings', 'deliveryProtocol', 'workshop', 'parts', 'compliance', 'tracking'],
+  DRIVER: ['stockyard', 'transport', 'workshop', 'tracking']
 };
 
 function init() {
