@@ -1,6 +1,7 @@
 import { api } from '../api.js';
 import { showAddLeadModal, showUpdateStageModal, showCsvImportModal } from './leadsModals.js';
 import { openWhatsAppChat } from '../utils/whatsapp.js';
+import { exportTableToCsv } from '../utils/exportCsv.js';
 
 export async function renderLeads(container) {
   container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i><p class="mt-2 text-sm">Loading leads...</p></div>';
@@ -15,6 +16,10 @@ export async function renderLeads(container) {
           <p class="text-sm text-slate-500">Capture walk-ins, digital campaigns & OEM DMS auto-sync leads.</p>
         </div>
         <div class="flex items-center gap-2">
+          <button id="exportCsvBtn" class="min-h-[44px] px-3 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-sm font-semibold flex items-center space-x-1.5 shadow-2xs transition">
+            <i class="fa-solid fa-file-excel text-emerald-600"></i>
+            <span>Export (.csv)</span>
+          </button>
           <button id="importCsvBtn" class="min-h-[44px] px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-lg text-sm font-semibold flex items-center space-x-1.5 shadow-2xs transition">
             <i class="fa-solid fa-file-csv"></i>
             <span>Import CSV</span>
@@ -131,4 +136,9 @@ export async function renderLeads(container) {
   document.getElementById('leadStatusSelect')?.addEventListener('change', filterAndDisplay);
   document.getElementById('addLeadBtn')?.addEventListener('click', () => showAddLeadModal(() => renderLeads(container)));
   document.getElementById('importCsvBtn')?.addEventListener('click', () => showCsvImportModal(() => renderLeads(container)));
+  document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
+    const headers = ['Customer Name', 'Phone', 'Email', 'Source', 'Interested Model', 'Consultant', 'Status', 'Budget'];
+    const rows = allLeads.map(l => [l.customer_name, l.phone, l.email || '', l.source, l.interested_model || '', l.consultant_name || '', l.status, l.budget || '']);
+    exportTableToCsv('Lead_Pipeline_Register', headers, rows);
+  });
 }

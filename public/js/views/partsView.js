@@ -1,5 +1,6 @@
 import { api } from '../api.js';
 import { showNewPartModal, showIssuePartModal, showRestockModal } from './partsModals.js';
+import { exportTableToCsv } from '../utils/exportCsv.js';
 
 export async function renderParts(container) {
   container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl text-amber-600"></i><p class="mt-2 text-sm">Loading spare parts inventory...</p></div>';
@@ -14,10 +15,16 @@ export async function renderParts(container) {
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Spare Parts & Warehouse Bins</h2>
           <p class="text-sm text-slate-500">Genuine OEM parts inventory, bin/rack locations & workshop issuing desk.</p>
         </div>
-        <button id="addPartBtn" class="min-h-[44px] px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
-          <i class="fa-solid fa-boxes-stacked"></i>
-          <span>Add Spare Part</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="exportPartsCsvBtn" class="min-h-[44px] px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-sm font-semibold flex items-center space-x-1.5 shadow-2xs transition">
+            <i class="fa-solid fa-file-excel text-emerald-600"></i>
+            <span>Export (.csv)</span>
+          </button>
+          <button id="addPartBtn" class="min-h-[44px] px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <span>Add Spare Part</span>
+          </button>
+        </div>
       </div>
 
       <!-- KPI Grid -->
@@ -140,4 +147,9 @@ export async function renderParts(container) {
   document.getElementById('partSearchInput')?.addEventListener('input', filterParts);
   document.getElementById('partCategoryFilter')?.addEventListener('change', filterParts);
   document.getElementById('addPartBtn')?.addEventListener('click', () => showNewPartModal(() => renderParts(container)));
+  document.getElementById('exportPartsCsvBtn')?.addEventListener('click', () => {
+    const headers = ['Part Number', 'Description', 'Category', 'Bin Location', 'Stock on Hand', 'Min Reorder Level', 'Unit Price (INR)'];
+    const rows = allParts.map(p => [p.part_number, p.part_name, p.category, p.bin_location, p.stock_quantity, p.min_stock_alert, p.unit_price]);
+    exportTableToCsv('Spare_Parts_Bin_Inventory', headers, rows);
+  });
 }

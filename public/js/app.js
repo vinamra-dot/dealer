@@ -17,6 +17,9 @@ import { renderLoanComparator } from './views/loanComparatorView.js';
 import { renderWorkshop } from './views/workshopView.js';
 import { renderParts } from './views/partsView.js';
 import { renderRetention } from './views/retentionView.js';
+import { renderLedger } from './views/ledgerView.js';
+import { renderTracking } from './views/trackingView.js';
+import { renderIntegrations } from './views/integrationsView.js';
 import { setupHeaderControls } from './headerControls.js';
 
 const viewMap = {
@@ -29,25 +32,28 @@ const viewMap = {
   kyc: renderKyc,
   exchange: renderExchange,
   finance: renderFinance,
+  ledger: renderLedger,
   stockyard: renderStockyard,
   deliveryProtocol: renderDeliveryProtocol,
   claims: renderClaims,
   workshop: renderWorkshop,
   parts: renderParts,
   retention: renderRetention,
+  tracking: renderTracking,
+  integrations: renderIntegrations,
   salesTargets: renderSalesTargets,
   team: renderTeam
 };
 
 const rolePermissions = {
-  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'salesTargets', 'team'],
-  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'salesTargets', 'team'],
-  SALES_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'retention', 'salesTargets'],
-  SALES_CONSULTANT: ['leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'retention', 'salesTargets'],
-  TELECALLER: ['leads', 'retention'],
-  FINANCE_HEAD: ['bookings', 'finance', 'loanComparator', 'kyc', 'exchange', 'claims'],
-  LOGISTICS_PDI: ['stockyard', 'bookings', 'deliveryProtocol', 'workshop', 'parts'],
-  DRIVER: ['stockyard', 'workshop']
+  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'ledger', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'tracking', 'integrations', 'salesTargets', 'team'],
+  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'ledger', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'tracking', 'integrations', 'salesTargets', 'team'],
+  SALES_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'ledger', 'retention', 'tracking', 'salesTargets'],
+  SALES_CONSULTANT: ['leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'retention', 'tracking', 'salesTargets'],
+  TELECALLER: ['leads', 'retention', 'tracking'],
+  FINANCE_HEAD: ['bookings', 'finance', 'ledger', 'loanComparator', 'kyc', 'exchange', 'claims', 'tracking'],
+  LOGISTICS_PDI: ['stockyard', 'bookings', 'deliveryProtocol', 'workshop', 'parts', 'tracking'],
+  DRIVER: ['stockyard', 'workshop', 'tracking']
 };
 
 function init() {
@@ -73,6 +79,7 @@ function setupApp() {
     (tab) => switchView(tab)
   );
   setupLogout();
+  document.getElementById('headerTrackBtn')?.addEventListener('click', () => switchView('tracking'));
 
   const allowed = rolePermissions[state.user?.role] || ['leads'];
   const initialTab = allowed.includes(state.currentTab) ? state.currentTab : allowed[0];

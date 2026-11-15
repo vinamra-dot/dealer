@@ -31,16 +31,22 @@
         </div>
 
         <div class="flex items-center space-x-2 sm:space-x-3">
-          <!-- Multi-Branch Showroom Switcher -->
+          <!-- Public Track My Car Quick Link -->
+          <button id="headerTrackBtn" class="min-h-[38px] px-2.5 sm:px-3 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 rounded-lg text-xs font-bold border border-cyan-200 transition flex items-center space-x-1.5 shadow-2xs">
+            <i class="fa-solid fa-satellite-dish text-cyan-600"></i>
+            <span class="hidden sm:inline">Track Car</span>
+          </button>
+
+          <!-- Showroom Switcher -->
           <select id="branchSelector" class="hidden lg:block text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-800 font-semibold focus:outline-none focus:border-blue-500 shadow-2xs">
             <option value="dealership-apex-01">📍 Jaipur Main Hub</option>
             <option value="dealership-apex-02">📍 Jodhpur West Showroom</option>
             <option value="dealership-apex-03">📍 Udaipur City Branch</option>
           </select>
 
-          <!-- Notification Bell with Dropdown -->
+          <!-- Notification Bell -->
           <div class="relative">
-            <button id="notifBellBtn" class="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 transition relative shadow-2xs">
+            <button id="notifBellBtn" class="min-w-[38px] min-h-[38px] flex items-center justify-center rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 transition relative shadow-2xs">
               <i class="fa-solid fa-bell text-sm"></i>
               <span id="notifBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-rose-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
             </button>
@@ -57,11 +63,11 @@
             <p id="userNameDisplay" class="text-sm font-semibold text-slate-900">Rajesh Singhania</p>
             <span id="userRoleBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">SYSTEM_ADMIN</span>
           </div>
-          <button id="roleSwitchBtn" class="min-h-[40px] px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs font-semibold border border-slate-300 transition flex items-center space-x-1.5 shadow-2xs">
+          <button id="roleSwitchBtn" class="min-h-[38px] px-2.5 sm:px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs font-semibold border border-slate-300 transition flex items-center space-x-1.5 shadow-2xs">
             <i class="fa-solid fa-user-gear text-slate-600"></i>
-            <span class="hidden md:inline">Switch Role</span>
+            <span class="hidden md:inline">Role</span>
           </button>
-          <button id="logoutBtn" class="min-h-[40px] px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-lg text-xs font-semibold border border-rose-200 transition flex items-center space-x-1.5 shadow-2xs">
+          <button id="logoutBtn" class="min-h-[38px] px-2.5 sm:px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-lg text-xs font-semibold border border-rose-200 transition flex items-center space-x-1.5 shadow-2xs">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <span class="hidden md:inline">Logout</span>
           </button>
@@ -71,63 +77,71 @@
 
     <!-- Main Layout Wrapper -->
     <div class="flex-1 flex max-w-7xl w-full mx-auto relative">
-      <!-- Sidebar Navigation -->
       <aside id="sidebarNav" class="fixed md:static inset-y-0 left-0 z-30 w-64 bg-white border-r border-slate-200 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col pt-16 md:pt-0 shadow-sm md:shadow-none">
-        <div class="p-4 space-y-1 overflow-y-auto flex-1">
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1.5">Showroom & Sales</p>
-          <button data-tab="dashboard" class="nav-tab active-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+        <div class="p-3.5 space-y-1 overflow-y-auto flex-1">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">Showroom & Sales</p>
+          <button data-tab="dashboard" class="nav-tab active-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-chart-line w-4 text-blue-600"></i><span>Executive Cockpit</span>
           </button>
-          <button data-tab="leads" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="leads" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-users w-4 text-amber-600"></i><span>Lead Pipeline</span>
           </button>
-          <button data-tab="testDrives" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="testDrives" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-car w-4 text-emerald-600"></i><span>Test Drive Hub</span>
           </button>
-          <button data-tab="quotes" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="quotes" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-file-invoice-dollar w-4 text-purple-600"></i><span>Quotation Builder</span>
           </button>
-          <button data-tab="bookings" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="bookings" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-key w-4 text-cyan-600"></i><span>Vehicle Bookings</span>
           </button>
-          <button data-tab="loanComparator" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="loanComparator" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-calculator w-4 text-indigo-600"></i><span>Bank EMI Comparator</span>
           </button>
-          <button data-tab="kyc" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="kyc" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-id-card w-4 text-blue-600"></i><span>Customer KYC Vault</span>
           </button>
-          <button data-tab="exchange" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="exchange" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-car-side w-4 text-amber-600"></i><span>Used Car Exchange</span>
           </button>
 
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-3 pb-1.5">Finance & Operations</p>
-          <button data-tab="finance" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-2.5 pb-1">Finance & Ledger</p>
+          <button data-tab="finance" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-building-columns w-4 text-indigo-600"></i><span>Finance & DO Desk</span>
           </button>
-          <button data-tab="stockyard" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="ledger" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
+            <i class="fa-solid fa-chart-pie w-4 text-emerald-600"></i><span>Dealership P&L Ledger</span>
+          </button>
+          <button data-tab="stockyard" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-warehouse w-4 text-orange-600"></i><span>Stockyard & Gatepass</span>
           </button>
-          <button data-tab="deliveryProtocol" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="deliveryProtocol" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-champagne-glasses w-4 text-emerald-600"></i><span>VIP Delivery Protocol</span>
           </button>
-          <button data-tab="claims" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="claims" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-receipt w-4 text-rose-600"></i><span>OEM Claim Recovery</span>
           </button>
 
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-3 pb-1.5">Workshop & Retention</p>
-          <button data-tab="workshop" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 pt-2.5 pb-1">Workshop & Public Hub</p>
+          <button data-tab="workshop" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-wrench w-4 text-indigo-600"></i><span>Service Workshop</span>
           </button>
-          <button data-tab="parts" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="parts" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-boxes-stacked w-4 text-amber-600"></i><span>Spare Parts & Bins</span>
           </button>
-          <button data-tab="retention" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="retention" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-star w-4 text-rose-600"></i><span>CSAT & Retention</span>
           </button>
-          <button data-tab="salesTargets" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="tracking" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
+            <i class="fa-solid fa-satellite-dish w-4 text-cyan-600"></i><span>Track My Car (Public)</span>
+          </button>
+          <button data-tab="integrations" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
+            <i class="fa-solid fa-network-wired w-4 text-blue-600"></i><span>API Hub & Webhooks</span>
+          </button>
+          <button data-tab="salesTargets" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-bullseye w-4 text-blue-600"></i><span>Sales Targets & KPIs</span>
           </button>
-          <button data-tab="team" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[40px] rounded-lg text-xs font-medium transition text-left">
+          <button data-tab="team" class="nav-tab w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium transition text-left">
             <i class="fa-solid fa-users-gear w-4 text-indigo-600"></i><span>Team & Roles</span>
           </button>
         </div>

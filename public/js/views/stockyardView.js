@@ -1,6 +1,7 @@
 import { api } from '../api.js';
 import { getCarImage } from '../utils/carImages.js';
 import { showGatepassModal } from './stockyardModals.js';
+import { exportTableToCsv } from '../utils/exportCsv.js';
 
 export async function renderStockyard(container) {
   container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl text-orange-600"></i><p class="mt-2 text-sm">Loading gate passes & stockyard logs...</p></div>';
@@ -15,10 +16,16 @@ export async function renderStockyard(container) {
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Stockyard Logistics & Aging Cockpit</h2>
           <p class="text-sm text-slate-500">Aging inventory buckets, accumulated holding interest & transit gatepasses.</p>
         </div>
-        <button id="issuePassBtn" class="min-h-[44px] px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
-          <i class="fa-solid fa-ticket"></i>
-          <span>Issue Gatepass</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="exportStockCsvBtn" class="min-h-[44px] px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-sm font-semibold flex items-center space-x-1.5 shadow-2xs transition">
+            <i class="fa-solid fa-file-excel text-emerald-600"></i>
+            <span>Export (.csv)</span>
+          </button>
+          <button id="issuePassBtn" class="min-h-[44px] px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
+            <i class="fa-solid fa-ticket"></i>
+            <span>Issue Gatepass</span>
+          </button>
+        </div>
       </div>
 
       <!-- Aging Buckets -->
@@ -131,4 +138,9 @@ export async function renderStockyard(container) {
   renderRows(allPasses);
   document.getElementById('gpSearchInput')?.addEventListener('input', filterPasses);
   document.getElementById('issuePassBtn')?.addEventListener('click', () => showGatepassModal(vehicles, () => renderStockyard(container)));
+  document.getElementById('exportStockCsvBtn')?.addEventListener('click', () => {
+    const headers = ['Gatepass ID', 'Vehicle', 'VIN', 'Driver', 'Start ODO', 'End ODO', 'Purpose', 'Status'];
+    const rows = allPasses.map(p => [p.id, `${p.model} (${p.color})`, p.vin, p.driver_name, p.starting_odometer, p.ending_odometer || 'En route', p.purpose, p.status]);
+    exportTableToCsv('Stockyard_Gatepass_Logs', headers, rows);
+  });
 }

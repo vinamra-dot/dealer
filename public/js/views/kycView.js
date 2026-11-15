@@ -1,4 +1,6 @@
 import { api } from '../api.js';
+import { showAddKycModal } from './kycModals.js';
+import { exportTableToCsv } from '../utils/exportCsv.js';
 
 export async function renderKyc(container) {
   container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i><p class="mt-2 text-sm">Loading KYC records...</p></div>';
@@ -10,12 +12,18 @@ export async function renderKyc(container) {
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Digital Customer KYC Vault</h2>
-          <p class="text-sm text-slate-500">Aadhaar, PAN & RTO compliance verification desk for vehicle registration.</p>
+          <p class="text-sm text-slate-500">NSDL PAN OCR, masked Aadhaar & RTO compliance verification desk for vehicle registration.</p>
         </div>
-        <button id="addKycBtn" class="min-h-[44px] px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
-          <i class="fa-solid fa-id-card"></i>
-          <span>Upload New KYC</span>
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="exportKycCsvBtn" class="min-h-[44px] px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-sm font-semibold flex items-center space-x-1.5 shadow-2xs transition">
+            <i class="fa-solid fa-file-excel text-emerald-600"></i>
+            <span>Export (.csv)</span>
+          </button>
+          <button id="addKycBtn" class="min-h-[44px] px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
+            <i class="fa-solid fa-id-card"></i>
+            <span>Upload New KYC</span>
+          </button>
+        </div>
       </div>
 
       <!-- Search & Status Filter -->
@@ -75,19 +83,35 @@ export async function renderKyc(container) {
           </span>
         </td>
         <td class="py-3 px-4 text-xs text-slate-600 max-w-xs truncate">${k.remarks || 'Standard intake'}</td>
-        <td class="py-3 px-4 text-right whitespace-nowrap">
+        <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+          ${k.pan_number ? `
+            <button class="pan-check-btn min-h-[32px] px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded border border-blue-200 transition shadow-2xs" data-pan="${k.pan_number}">
+              <i class="fa-solid fa-bolt mr-1"></i> NSDL Check
+            </button>
+          ` : ''}
           ${k.verification_status !== 'VERIFIED' ? `
             <button class="verify-kyc-btn min-h-[32px] px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded transition shadow-2xs" data-id="${k.id}">
-              Verify & Approve
+              Approve
             </button>
           ` : '<span class="text-xs text-emerald-600 font-semibold"><i class="fa-solid fa-shield-halved"></i> Cleared</span>'}
         </td>
       </tr>
     `).join('');
 
+    tbody.querySelectorAll('.pan-check-btn').forEach(b => {
+      b.onclick = async () => {
+        try {
+          const r = await api.post('/rto/pan-verify', { pan_number: b.dataset.pan });
+          alert(`NSDL Tax Department Verified!\nPAN: ${r.data.pan}\nStatus: ${r.data.pan_status}\nAadhaar Seeding: ${r.data.aadhaar_seeding_status}`);
+        } catch (err) {
+          alert('NSDL PAN check failed: ' + err.message);
+        }
+      };
+    });
+
     tbody.querySelectorAll('.verify-kyc-btn').forEach(b => {
       b.onclick = async () => {
-        await api.patch(`/kyc/${b.dataset.id}/verify`, { status: 'VERIFIED', remarks: 'Manually verified by Compliance Officer' });
+        await api.patch(`/kyc/${b.dataset.id}/verify`, { status: 'VERIFIED', remarks: 'Manually verified via NSDL ITD API' });
         renderKyc(container);
       };
     });
@@ -107,51 +131,11 @@ export async function renderKyc(container) {
   renderRows(allRecords);
   document.getElementById('kycSearchInput')?.addEventListener('input', filterKyc);
   document.getElementById('kycStatusFilter')?.addEventListener('change', filterKyc);
-  document.getElementById('addKycBtn')?.addEventListener('click', () => showAddKycModal(container));
-}
+  document.getElementById('addKycBtn')?.addEventListener('click', () => showAddKycModal(() => renderKyc(container)));
 
-function showAddKycModal(container) {
-  const modal = document.getElementById('appModal');
-  const content = document.getElementById('modalContent');
-  content.innerHTML = `
-    <div class="flex items-center justify-between pb-3 border-b border-slate-200">
-      <h3 class="text-base font-bold text-slate-900">Upload Customer KYC</h3>
-      <button id="closeModal" class="text-slate-400 hover:text-slate-600 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
-    </div>
-    <form id="kycForm" class="space-y-4 mt-2">
-      <div>
-        <label class="block text-xs font-semibold text-slate-700 mb-1">Customer Name *</label>
-        <input type="text" id="kName" required class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 text-sm focus:outline-none focus:border-blue-500" placeholder="e.g. Anand Mahindra">
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number *</label>
-          <input type="tel" id="kPhone" required class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 text-sm focus:outline-none focus:border-blue-500" placeholder="+91-9829012345">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">PAN Card Number</label>
-          <input type="text" id="kPan" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 text-sm font-mono uppercase focus:outline-none focus:border-blue-500" placeholder="ABCDE1234F">
-        </div>
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-700 mb-1">Masked Aadhaar Number</label>
-        <input type="text" id="kAadhaar" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-900 text-sm font-mono focus:outline-none focus:border-blue-500" placeholder="XXXX-XXXX-1234">
-      </div>
-      <button type="submit" class="w-full min-h-[44px] bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-sm transition shadow-sm">Save & Stage in KYC Vault</button>
-    </form>
-  `;
-
-  modal.classList.remove('hidden');
-  document.getElementById('closeModal').onclick = () => modal.classList.add('hidden');
-  document.getElementById('kycForm').onsubmit = async (e) => {
-    e.preventDefault();
-    await api.post('/kyc', {
-      customer_name: document.getElementById('kName').value,
-      customer_phone: document.getElementById('kPhone').value,
-      pan_number: document.getElementById('kPan').value,
-      aadhaar_masked: document.getElementById('kAadhaar').value
-    });
-    modal.classList.add('hidden');
-    renderKyc(container);
-  };
+  document.getElementById('exportKycCsvBtn')?.addEventListener('click', () => {
+    const headers = ['Customer Name', 'Phone', 'PAN', 'Masked Aadhaar', 'Doc Type', 'Verification Status', 'Remarks'];
+    const rows = allRecords.map(k => [k.customer_name, k.customer_phone, k.pan_number || '', k.aadhaar_masked || '', k.doc_type, k.verification_status, k.remarks || '']);
+    exportTableToCsv('Customer_KYC_Register', headers, rows);
+  });
 }

@@ -1,5 +1,6 @@
 import { api } from '../api.js';
 import { showPaymentModal, showDoModal } from './financeModals.js';
+import { exportTableToCsv } from '../utils/exportCsv.js';
 
 export async function renderFinance(container) {
   container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl text-indigo-600"></i><p class="mt-2 text-sm">Loading finance & payment records...</p></div>';
@@ -18,6 +19,10 @@ export async function renderFinance(container) {
           <p class="text-sm text-slate-500">Multi-bank loan DO verification, downpayment receipts & dealer commission tracking.</p>
         </div>
         <div class="flex items-center gap-2">
+          <button id="exportFinCsvBtn" class="min-h-[44px] px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg text-sm font-semibold flex items-center space-x-1.5 shadow-2xs transition">
+            <i class="fa-solid fa-file-excel text-emerald-600"></i>
+            <span>Export (.csv)</span>
+          </button>
           <button id="recordPayBtn" class="min-h-[44px] px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold flex items-center space-x-2 shadow-sm transition">
             <i class="fa-solid fa-money-bill-transfer"></i>
             <span>Record Payment</span>
@@ -111,5 +116,11 @@ export async function renderFinance(container) {
 
   document.getElementById('logDoBtn')?.addEventListener('click', () => {
     showDoModal(() => renderFinance(container));
+  });
+
+  document.getElementById('exportFinCsvBtn')?.addEventListener('click', () => {
+    const headers = ['Receipt No', 'OTF Number', 'Customer', 'Amount (INR)', 'Payment Method', 'Payment Type', 'Cashier'];
+    const rows = payments.map(p => [p.id, p.otf_number, p.customer_name, p.amount, p.method, p.payment_type, p.cashier_name || '']);
+    exportTableToCsv('Finance_Receipts_Ledger', headers, rows);
   });
 }

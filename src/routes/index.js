@@ -18,6 +18,11 @@ import kycRoutes from './kycRoutes.js';
 import workshopRoutes from './workshopRoutes.js';
 import partsRoutes from './partsRoutes.js';
 import retentionRoutes from './retentionRoutes.js';
+import webhookRoutes from './webhookRoutes.js';
+import rtoRoutes from './rtoRoutes.js';
+import ledgerRoutes from './ledgerRoutes.js';
+import trackingRoutes from './trackingRoutes.js';
+import cronRoutes from './cronRoutes.js';
 import { isDbInMemory, getLastDbError } from '../config/db.js';
 
 const apiRouter = Router();
@@ -41,6 +46,12 @@ apiRouter.use('/kyc', kycRoutes);
 apiRouter.use('/workshop', workshopRoutes);
 apiRouter.use('/parts', partsRoutes);
 apiRouter.use('/retention', retentionRoutes);
+apiRouter.use('/webhooks', webhookRoutes);
+apiRouter.use('/integrations', webhookRoutes);
+apiRouter.use('/rto', rtoRoutes);
+apiRouter.use('/ledger', ledgerRoutes);
+apiRouter.use('/tracking', trackingRoutes);
+apiRouter.use('/cron', cronRoutes);
 
 apiRouter.get('/health', (req, res) => {
   res.json({
