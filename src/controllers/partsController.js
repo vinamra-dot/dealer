@@ -65,3 +65,29 @@ export async function issuePart(req, res, next) {
     return next(err);
   }
 }
+
+export async function restockPart(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    const addQty = parseInt(quantity) || 5;
+
+    const current = await query(`SELECT stock_quantity FROM spare_parts WHERE id = $1 AND dealership_id = $2;`, [id, req.user.dealership_id]);
+    if (current.rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Spare part not found.' });
+    }
+
+    const newStock = parseInt(current.rows[0].stock_quantity) + addQty;
+    const result = await query(
+      `UPDATE spare_parts 
+       SET stock_quantity = $1 
+       WHERE id = $2 AND dealership_id = $3
+       RETURNING *;`,
+      [newStock, id, req.user.dealership_id]
+    );
+
+    return res.json({ success: true, message: `Successfully restocked ${addQty} unit(s).`, data: result.rows[0] });
+  } catch (err) {
+    return next(err);
+  }
+}

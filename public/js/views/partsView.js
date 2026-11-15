@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { showNewPartModal } from './partsModals.js';
+import { showNewPartModal, showIssuePartModal, showRestockModal } from './partsModals.js';
 
 export async function renderParts(container) {
   container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl text-amber-600"></i><p class="mt-2 text-sm">Loading spare parts inventory...</p></div>';
@@ -99,18 +99,28 @@ export async function renderParts(container) {
           ${p.stock_quantity <= p.min_stock_alert ? '<span class="ml-1.5 text-[10px] bg-rose-50 text-rose-700 border border-rose-200 px-1.5 py-0.5 rounded font-bold">REORDER</span>' : ''}
         </td>
         <td class="py-3 px-4 font-mono font-semibold text-slate-900">₹${parseFloat(p.unit_price).toLocaleString('en-IN')}</td>
-        <td class="py-3 px-4 text-right">
-          <button class="issue-part-btn min-h-[32px] px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-xs font-semibold rounded transition shadow-2xs" data-id="${p.id}" ${p.stock_quantity <= 0 ? 'disabled' : ''}>
-            <i class="fa-solid fa-arrow-right-arrow-left text-[10px] mr-1"></i> Issue 1 Unit
+        <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+          <button class="issue-part-btn min-h-[32px] px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-xs font-semibold rounded transition shadow-2xs" data-json="${encodeURIComponent(JSON.stringify(p))}" ${p.stock_quantity <= 0 ? 'disabled' : ''}>
+            <i class="fa-solid fa-arrow-right-arrow-left text-[10px] mr-1"></i> Issue to Job Card
+          </button>
+          <button class="restock-part-btn min-h-[32px] px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-semibold rounded transition shadow-2xs" data-json="${encodeURIComponent(JSON.stringify(p))}">
+            <i class="fa-solid fa-plus text-[10px]"></i>
           </button>
         </td>
       </tr>
     `).join('');
 
     tbody.querySelectorAll('.issue-part-btn').forEach(btn => {
-      btn.onclick = async () => {
-        await api.patch(`/parts/${btn.dataset.id}/issue`, { quantity: 1 });
-        renderParts(container);
+      btn.onclick = () => {
+        const part = JSON.parse(decodeURIComponent(btn.dataset.json));
+        showIssuePartModal(part, () => renderParts(container));
+      };
+    });
+
+    tbody.querySelectorAll('.restock-part-btn').forEach(btn => {
+      btn.onclick = () => {
+        const part = JSON.parse(decodeURIComponent(btn.dataset.json));
+        showRestockModal(part, () => renderParts(container));
       };
     });
   }
