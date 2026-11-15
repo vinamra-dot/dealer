@@ -14,9 +14,18 @@ export async function initDb() {
   if (memDb && memClient) return { isInMemory: true };
 
   try {
+    const isRemote = config.databaseUrl && (
+      config.databaseUrl.includes('supabase') ||
+      config.databaseUrl.includes('pooler') ||
+      config.databaseUrl.includes('sslmode=') ||
+      config.databaseUrl.includes('.co') ||
+      config.databaseUrl.includes('.com')
+    );
+
     pool = new Pool({
       connectionString: config.databaseUrl,
-      connectionTimeoutMillis: 1500
+      connectionTimeoutMillis: 6000,
+      ssl: isRemote ? { rejectUnauthorized: false } : undefined
     });
 
     const client = await pool.connect();
@@ -27,7 +36,7 @@ export async function initDb() {
     return { isInMemory: false };
   } catch (err) {
     if (!memDb) {
-      console.warn('[PostgreSQL] Server unavailable, initializing high-fidelity in-memory PostgreSQL engine (pg-mem)...');
+      console.warn('[PostgreSQL] Remote server unreachable, initializing high-fidelity in-memory engine...');
       memDb = newDb();
       memDb.public.registerFunction({
         implementation: () => new Date().toISOString(),
@@ -43,21 +52,24 @@ export async function initDb() {
 }
 
 export async function query(text, params = []) {
+  if (!pool && !memClient) {
+    await initDb();
+  }
+
   if (!isInMemory && pool) {
     return pool.query(text, params);
   }
 
   if (isInMemory && memClient) {
     try {
-      const res = await memClient.query(text, params);
-      return res;
+      return await memClient.query(text, params);
     } catch (memErr) {
       console.error('[DB Query Error in pg-mem]', memErr.message, 'Query:', text);
       throw memErr;
     }
   }
 
-  throw new Error('Database not initialized. Call initDb() first.');
+  throw new Error('Database connection failed.');
 }
 
 export function isDbInMemory() {
