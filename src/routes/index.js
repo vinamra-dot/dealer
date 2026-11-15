@@ -12,6 +12,7 @@ import usedCarRoutes from './usedCarRoutes.js';
 import deliveryRoutes from './deliveryRoutes.js';
 import salesTargetRoutes from './salesTargetRoutes.js';
 import vehicleRoutes from './vehicleRoutes.js';
+import { isDbInMemory, getLastDbError } from '../config/db.js';
 
 const apiRouter = Router();
 
@@ -33,6 +34,8 @@ apiRouter.get('/health', (req, res) => {
   res.json({
     status: 'UP',
     service: 'DealerFlow SaaS Core Engine',
+    dbMode: isDbInMemory() ? 'IN_MEMORY' : 'REMOTE_POSTGRES',
+    dbError: getLastDbError(),
     timestamp: new Date().toISOString()
   });
 });

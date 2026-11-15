@@ -8,6 +8,7 @@ let pool = null;
 let memDb = null;
 let memClient = null;
 let isInMemory = false;
+let lastDbError = null;
 
 export async function initDb() {
   if (pool) return { isInMemory: false };
@@ -19,12 +20,13 @@ export async function initDb() {
       config.databaseUrl.includes('pooler') ||
       config.databaseUrl.includes('sslmode=') ||
       config.databaseUrl.includes('.co') ||
-      config.databaseUrl.includes('.com')
+      config.databaseUrl.includes('.com') ||
+      process.env.NODE_ENV === 'production'
     );
 
     pool = new Pool({
       connectionString: config.databaseUrl,
-      connectionTimeoutMillis: 6000,
+      connectionTimeoutMillis: 10000,
       ssl: isRemote ? { rejectUnauthorized: false } : undefined
     });
 
@@ -33,8 +35,11 @@ export async function initDb() {
     client.release();
     console.log('[PostgreSQL] Connected to database server successfully.');
     isInMemory = false;
+    lastDbError = null;
     return { isInMemory: false };
   } catch (err) {
+    lastDbError = err.message;
+    console.error('[PostgreSQL Connection Error]:', err.message);
     if (!memDb) {
       console.warn('[PostgreSQL] Remote server unreachable, initializing high-fidelity in-memory engine...');
       memDb = newDb();
@@ -74,4 +79,8 @@ export async function query(text, params = []) {
 
 export function isDbInMemory() {
   return isInMemory;
+}
+
+export function getLastDbError() {
+  return lastDbError;
 }
