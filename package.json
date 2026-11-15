@@ -1,0 +1,25 @@
+{
+  "name": "dealerflow-saas",
+  "version": "1.0.0",
+  "description": "Enterprise Automobile Dealership Workflow Automation SaaS",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "migrate": "node src/migrations/runMigrations.js",
+    "seed": "node src/seeds/runSeeds.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "pg": "^8.18.0",
+    "pg-mem": "^3.0.14",
+    "uuid": "^13.0.0"
+  }
+}

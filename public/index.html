@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DealerFlow SaaS — Dealership Operations & Workflow Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans antialiased">
+  <div id="loginContainer"></div>
+
+  <div id="appShell" class="flex-1 flex flex-col hidden">
+    <!-- Top Global Header -->
+    <header class="bg-white/95 border-b border-slate-200 sticky top-0 z-40 backdrop-blur-md shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <button id="mobileMenuBtn" class="md:hidden min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-700 hover:text-slate-950 rounded-lg">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+          <div class="flex items-center space-x-2.5">
+            <span class="bg-blue-600 text-white rounded-lg font-black text-base flex items-center justify-center w-9 h-9 shadow-sm shadow-blue-500/20">DF</span>
+            <div>
+              <h1 class="font-bold text-base leading-tight tracking-tight text-slate-900 flex items-center gap-1.5">
+                DealerFlow <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">Enterprise</span>
+              </h1>
+              <p id="headerDealership" class="text-xs text-slate-500 font-medium">Apex Mobility Motors • Jaipur</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <div class="text-right hidden sm:block">
+            <p id="userNameDisplay" class="text-sm font-semibold text-slate-900">Rajesh Singhania</p>
+            <span id="userRoleBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">SYSTEM_ADMIN</span>
+          </div>
+          <button id="roleSwitchBtn" class="min-h-[44px] px-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-xs font-semibold border border-slate-300 transition flex items-center space-x-2 shadow-xs">
+            <i class="fa-solid fa-user-gear text-slate-600"></i>
+            <span class="hidden md:inline">Switch Role</span>
+          </button>
+          <button id="logoutBtn" class="min-h-[44px] px-3.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-lg text-xs font-semibold border border-rose-200 transition flex items-center space-x-1.5 shadow-xs">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span class="hidden md:inline">Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Responsive Layout Wrapper -->
+    <div class="flex-1 flex max-w-7xl w-full mx-auto relative">
+      <!-- Role-Filtered Sidebar Navigation -->
+      <aside id="sidebarNav" class="fixed md:static inset-y-0 left-0 z-30 w-64 bg-white border-r border-slate-200 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col pt-16 md:pt-0 shadow-sm md:shadow-none">
+        <div class="p-4 space-y-1 overflow-y-auto flex-1">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2">Role Operations</p>
+          <button data-tab="dashboard" class="nav-tab active-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-chart-line w-5 text-blue-600"></i>
+            <span>Executive Cockpit</span>
+          </button>
+          <button data-tab="leads" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-users w-5 text-amber-600"></i>
+            <span>Lead Pipeline</span>
+          </button>
+          <button data-tab="testDrives" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-car w-5 text-emerald-600"></i>
+            <span>Test Drive Hub</span>
+          </button>
+          <button data-tab="quotes" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-file-invoice-dollar w-5 text-purple-600"></i>
+            <span>Quotation Builder</span>
+          </button>
+          <button data-tab="bookings" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-key w-5 text-cyan-600"></i>
+            <span>Vehicle Bookings</span>
+          </button>
+          <button data-tab="exchange" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-car-side w-5 text-amber-600"></i>
+            <span>Used Car Exchange</span>
+          </button>
+          <button data-tab="finance" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-building-columns w-5 text-indigo-600"></i>
+            <span>Finance & DO Desk</span>
+          </button>
+          <button data-tab="stockyard" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-warehouse w-5 text-orange-600"></i>
+            <span>Stockyard & Gatepass</span>
+          </button>
+          <button data-tab="deliveryProtocol" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-champagne-glasses w-5 text-emerald-600"></i>
+            <span>VIP Delivery Protocol</span>
+          </button>
+          <button data-tab="claims" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-receipt w-5 text-rose-600"></i>
+            <span>OEM Claim Recovery</span>
+          </button>
+          <button data-tab="salesTargets" class="nav-tab w-full flex items-center space-x-3 px-3.5 min-h-[44px] rounded-lg text-sm font-medium transition text-left">
+            <i class="fa-solid fa-bullseye w-5 text-blue-600"></i>
+            <span>Sales Targets & KPIs</span>
+          </button>
+        </div>
+      </aside>
+
+      <div id="sidebarBackdrop" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden"></div>
+
+      <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
+        <div id="viewContainer" class="space-y-6"></div>
+      </main>
+    </div>
+  </div>
+
+  <div id="appModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs hidden">
+    <div id="modalContent" class="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto"></div>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

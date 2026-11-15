@@ -1,0 +1,52 @@
+/* Custom Light Theme SaaS Styling & Responsive Overrides */
+html, body {
+  height: 100%;
+  touch-action: manipulation;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Minimum 44x44px touch targets for mobile accessibility */
+button, input, select, textarea, .tap-target {
+  min-height: 44px;
+}
+
+/* Active tab style (Clean Light SaaS) */
+.active-tab {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border-left: 3px solid #2563eb !important;
+  font-weight: 600 !important;
+}
+
+.nav-tab {
+  color: #475569;
+}
+
+.nav-tab:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Light Theme Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Responsive Table Wrapper */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
