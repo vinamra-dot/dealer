@@ -1,31 +1,16 @@
-import fs from 'fs';
-import path from 'path';
 import { fileURLToPath } from 'url';
 import { query, initDb } from '../config/db.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { schemaPart1 } from './schemaPart1.js';
+import { schemaPart2 } from './schemaPart2.js';
 
 export async function runMigrations() {
   console.log('[Migrations] Checking and running schema migrations...');
   await initDb();
 
-  const migrationFiles = [
-    '001_core_schema.sql',
-    '002_operations_schema.sql',
-    '003_workflow_schema.sql',
-    '004_core_extensions.sql'
-  ];
+  const allSchemas = [...schemaPart1, ...schemaPart2];
 
-  for (const file of migrationFiles) {
-    const filePath = path.join(__dirname, file);
-    if (!fs.existsSync(filePath)) {
-      console.warn(`[Migrations] Skipping missing migration file: ${file}`);
-      continue;
-    }
-
-    const sqlContent = fs.readFileSync(filePath, 'utf8');
-    const statements = sqlContent
+  for (const item of allSchemas) {
+    const statements = item.sql
       .split(';')
       .map((s) => s.trim())
       .filter((s) => s.length > 0);
@@ -34,11 +19,11 @@ export async function runMigrations() {
       try {
         await query(stmt);
       } catch (err) {
-        console.error(`[Migrations] Error executing statement in ${file}:`, err.message);
+        console.error(`[Migrations] Error in ${item.name}:`, err.message);
         throw err;
       }
     }
-    console.log(`[Migrations] Applied ${file} successfully.`);
+    console.log(`[Migrations] Applied ${item.name} successfully.`);
   }
 
   console.log('[Migrations] All migrations executed successfully.');
