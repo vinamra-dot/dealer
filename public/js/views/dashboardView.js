@@ -1,4 +1,5 @@
 import { api } from '../api.js';
+import { getCarImage } from '../utils/carImages.js';
 
 export async function renderDashboard(container) {
   container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i><p class="mt-2 text-sm">Loading metrics...</p></div>';
@@ -23,7 +24,7 @@ export async function renderDashboard(container) {
         </div>
       </div>
 
-      <!-- KPI Grid (Clean Light Theme) -->
+      <!-- KPI Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
           <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Daily Stock Holding Cost</p>
@@ -47,14 +48,17 @@ export async function renderDashboard(container) {
         </div>
       </div>
 
-      <!-- Inventory Table (Clean Light Theme) -->
+      <!-- Inventory Fleet Showcase -->
       <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
-        <h3 class="text-base font-bold text-slate-900 mb-4">Stockyard & Showroom Fleet Status</h3>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-slate-900">Stockyard & Showroom Fleet Gallery</h3>
+          <span class="text-xs text-slate-500">Live Vehicle Pool</span>
+        </div>
         <div class="table-responsive">
           <table class="w-full text-left text-sm text-slate-700">
             <thead class="text-xs uppercase bg-slate-50 text-slate-600 border-b border-slate-200">
               <tr>
-                <th class="py-3 px-4 font-semibold">Model & Variant</th>
+                <th class="py-3 px-4 font-semibold">Vehicle</th>
                 <th class="py-3 px-4 font-semibold">Color</th>
                 <th class="py-3 px-4 font-semibold">VIN / Chassis</th>
                 <th class="py-3 px-4 font-semibold">Ex-Showroom</th>
@@ -65,7 +69,13 @@ export async function renderDashboard(container) {
             <tbody class="divide-y divide-slate-100">
               ${(d.vehicles || []).map(v => `
                 <tr class="hover:bg-slate-50/80 transition">
-                  <td class="py-3 px-4 font-semibold text-slate-900">${v.model} <span class="text-xs text-slate-500 font-normal">(${v.variant})</span></td>
+                  <td class="py-3 px-4 font-semibold text-slate-900 flex items-center space-x-3">
+                    <img src="${getCarImage(v.model)}" alt="${v.model}" class="w-12 h-8 object-cover rounded-md border border-slate-200 shadow-2xs">
+                    <div>
+                      <p class="font-bold text-slate-900 leading-tight">${v.model}</p>
+                      <p class="text-xs text-slate-500 font-normal">${v.variant}</p>
+                    </div>
+                  </td>
                   <td class="py-3 px-4">${v.color}</td>
                   <td class="py-3 px-4 font-mono text-xs text-slate-600">${v.vin || 'N/A'}</td>
                   <td class="py-3 px-4 font-medium text-slate-900">₹${parseFloat(v.ex_showroom_price).toLocaleString('en-IN')}</td>

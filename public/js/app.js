@@ -11,6 +11,8 @@ import { renderClaims } from './views/claimsView.js';
 import { renderExchange } from './views/exchangeView.js';
 import { renderDeliveryProtocol } from './views/deliveryProtocolView.js';
 import { renderSalesTargets } from './views/salesTargetsView.js';
+import { renderTeam } from './views/teamView.js';
+import { setupHeaderControls } from './headerControls.js';
 
 const viewMap = {
   dashboard: renderDashboard,
@@ -23,12 +25,13 @@ const viewMap = {
   claims: renderClaims,
   exchange: renderExchange,
   deliveryProtocol: renderDeliveryProtocol,
-  salesTargets: renderSalesTargets
+  salesTargets: renderSalesTargets,
+  team: renderTeam
 };
 
 const rolePermissions = {
-  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'salesTargets'],
-  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'salesTargets'],
+  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'salesTargets', 'team'],
+  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'salesTargets', 'team'],
   SALES_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'salesTargets'],
   SALES_CONSULTANT: ['leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'salesTargets'],
   TELECALLER: ['leads'],
@@ -55,7 +58,10 @@ function setupApp() {
   updateHeaderUI();
   filterNavigationByRole();
   setupMobileDrawer();
-  setupRoleSwitcher();
+  setupHeaderControls(
+    () => switchView(state.currentTab),
+    (tab) => switchView(tab)
+  );
   setupLogout();
 
   const allowed = rolePermissions[state.user?.role] || ['leads'];
@@ -109,51 +115,6 @@ function setupMobileDrawer() {
   backdrop?.addEventListener('click', () => {
     sidebar.classList.add('-translate-x-full');
     backdrop.classList.add('hidden');
-  });
-}
-
-function setupRoleSwitcher() {
-  const btn = document.getElementById('roleSwitchBtn');
-  const modal = document.getElementById('appModal');
-  const content = document.getElementById('modalContent');
-
-  btn?.addEventListener('click', () => {
-    content.innerHTML = `
-      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
-        <div>
-          <h3 class="text-lg font-bold text-slate-900">Switch Role Persona</h3>
-          <p class="text-xs text-slate-500">Test data isolation across different roles</p>
-        </div>
-        <button id="closeModal" class="text-slate-400 hover:text-slate-600 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="grid grid-cols-2 gap-2 pt-2">
-        ${state.roles.map(r => `
-          <button class="role-select-btn p-3 text-left bg-slate-50 hover:bg-blue-50 hover:border-blue-400 rounded-xl border border-slate-200 transition" data-email="${r.email}">
-            <span class="text-sm font-semibold text-slate-900 block">${r.label}</span>
-            <span class="text-xs text-slate-500 font-mono">${r.role}</span>
-          </button>
-        `).join('')}
-      </div>
-    `;
-
-    modal.classList.remove('hidden');
-    document.getElementById('closeModal').onclick = () => modal.classList.add('hidden');
-
-    document.querySelectorAll('.role-select-btn').forEach(b => {
-      b.onclick = async () => {
-        const res = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: b.dataset.email, password: 'Password@123' })
-        });
-        const data = await res.json();
-        if (data.success) {
-          setSession(data.data.token, data.data.user);
-          modal.classList.add('hidden');
-          setupApp();
-        }
-      };
-    });
   });
 }
 

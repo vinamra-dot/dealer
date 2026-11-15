@@ -12,12 +12,16 @@ import usedCarRoutes from './usedCarRoutes.js';
 import deliveryRoutes from './deliveryRoutes.js';
 import salesTargetRoutes from './salesTargetRoutes.js';
 import vehicleRoutes from './vehicleRoutes.js';
+import notificationRoutes from './notificationRoutes.js';
+import userRoutes from './userRoutes.js';
 import { isDbInMemory, getLastDbError } from '../config/db.js';
 
 const apiRouter = Router();
 
 apiRouter.use('/auth', authRoutes);
 apiRouter.use('/vehicles', vehicleRoutes);
+apiRouter.use('/notifications', notificationRoutes);
+apiRouter.use('/users', userRoutes);
 apiRouter.use('/leads', leadRoutes);
 apiRouter.use('/test-drives', testDriveRoutes);
 apiRouter.use('/quotes', quoteRoutes);

@@ -87,3 +87,34 @@ export async function updateLeadStatus(req, res, next) {
     return next(err);
   }
 }
+
+export async function bulkImportLeads(req, res, next) {
+  try {
+    const { leads } = req.body;
+    if (!Array.isArray(leads) || leads.length === 0) {
+      return res.status(400).json({ success: false, error: 'Array of leads is required.' });
+    }
+
+    const inserted = [];
+    for (const l of leads) {
+      if (!l.customer_name || !l.phone) continue;
+      const id = `lead-${uuidv4().slice(0, 8)}`;
+      const result = await query(
+        `INSERT INTO leads (id, dealership_id, customer_name, phone, email, source, interested_model, budget, status, remarks)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'NEW', $9)
+         RETURNING *;`,
+        [id, req.user.dealership_id, l.customer_name, l.phone, l.email || null, l.source || 'CSV_IMPORT', l.interested_model || 'Undecided', l.budget ? parseFloat(l.budget) : null, l.remarks || 'Imported via CSV batch']
+      );
+      inserted.push(result.rows[0]);
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: `Successfully imported ${inserted.length} leads into pipeline.`,
+      count: inserted.length,
+      data: inserted
+    });
+  } catch (err) {
+    return next(err);
+  }
+}
