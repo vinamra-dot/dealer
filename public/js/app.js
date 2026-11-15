@@ -1,4 +1,4 @@
-import { state, clearSession, setSession } from './state.js';
+import { state, clearSession } from './state.js';
 import { renderLoginPage } from './views/loginView.js';
 import { renderDashboard } from './views/dashboardView.js';
 import { renderLeads } from './views/leadsView.js';
@@ -12,6 +12,11 @@ import { renderExchange } from './views/exchangeView.js';
 import { renderDeliveryProtocol } from './views/deliveryProtocolView.js';
 import { renderSalesTargets } from './views/salesTargetsView.js';
 import { renderTeam } from './views/teamView.js';
+import { renderKyc } from './views/kycView.js';
+import { renderLoanComparator } from './views/loanComparatorView.js';
+import { renderWorkshop } from './views/workshopView.js';
+import { renderParts } from './views/partsView.js';
+import { renderRetention } from './views/retentionView.js';
 import { setupHeaderControls } from './headerControls.js';
 
 const viewMap = {
@@ -20,24 +25,29 @@ const viewMap = {
   testDrives: renderTestDrives,
   quotes: renderQuotes,
   bookings: renderBookings,
+  loanComparator: renderLoanComparator,
+  kyc: renderKyc,
+  exchange: renderExchange,
   finance: renderFinance,
   stockyard: renderStockyard,
-  claims: renderClaims,
-  exchange: renderExchange,
   deliveryProtocol: renderDeliveryProtocol,
+  claims: renderClaims,
+  workshop: renderWorkshop,
+  parts: renderParts,
+  retention: renderRetention,
   salesTargets: renderSalesTargets,
   team: renderTeam
 };
 
 const rolePermissions = {
-  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'salesTargets', 'team'],
-  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'salesTargets', 'team'],
-  SALES_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'salesTargets'],
-  SALES_CONSULTANT: ['leads', 'testDrives', 'quotes', 'bookings', 'exchange', 'salesTargets'],
-  TELECALLER: ['leads'],
-  FINANCE_HEAD: ['bookings', 'finance', 'exchange', 'claims'],
-  LOGISTICS_PDI: ['stockyard', 'bookings', 'deliveryProtocol'],
-  DRIVER: ['stockyard']
+  SYSTEM_ADMIN: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'salesTargets', 'team'],
+  GENERAL_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'finance', 'stockyard', 'deliveryProtocol', 'claims', 'workshop', 'parts', 'retention', 'salesTargets', 'team'],
+  SALES_MANAGER: ['dashboard', 'leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'retention', 'salesTargets'],
+  SALES_CONSULTANT: ['leads', 'testDrives', 'quotes', 'bookings', 'loanComparator', 'kyc', 'exchange', 'retention', 'salesTargets'],
+  TELECALLER: ['leads', 'retention'],
+  FINANCE_HEAD: ['bookings', 'finance', 'loanComparator', 'kyc', 'exchange', 'claims'],
+  LOGISTICS_PDI: ['stockyard', 'bookings', 'deliveryProtocol', 'workshop', 'parts'],
+  DRIVER: ['stockyard', 'workshop']
 };
 
 function init() {

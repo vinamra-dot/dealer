@@ -2,12 +2,13 @@ import { fileURLToPath } from 'url';
 import { query, initDb } from '../config/db.js';
 import { schemaPart1 } from './schemaPart1.js';
 import { schemaPart2 } from './schemaPart2.js';
+import { schemaPart3 } from './schemaPart3.js';
 
 export async function runMigrations() {
   console.log('[Migrations] Checking and running schema migrations...');
   await initDb();
 
-  const allSchemas = [...schemaPart1, ...schemaPart2];
+  const allSchemas = [...schemaPart1, ...schemaPart2, ...schemaPart3];
 
   for (const item of allSchemas) {
     const statements = item.sql

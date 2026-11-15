@@ -14,6 +14,10 @@ import salesTargetRoutes from './salesTargetRoutes.js';
 import vehicleRoutes from './vehicleRoutes.js';
 import notificationRoutes from './notificationRoutes.js';
 import userRoutes from './userRoutes.js';
+import kycRoutes from './kycRoutes.js';
+import workshopRoutes from './workshopRoutes.js';
+import partsRoutes from './partsRoutes.js';
+import retentionRoutes from './retentionRoutes.js';
 import { isDbInMemory, getLastDbError } from '../config/db.js';
 
 const apiRouter = Router();
@@ -33,6 +37,10 @@ apiRouter.use('/analytics', analyticsRoutes);
 apiRouter.use('/used-cars', usedCarRoutes);
 apiRouter.use('/delivery', deliveryRoutes);
 apiRouter.use('/sales-targets', salesTargetRoutes);
+apiRouter.use('/kyc', kycRoutes);
+apiRouter.use('/workshop', workshopRoutes);
+apiRouter.use('/parts', partsRoutes);
+apiRouter.use('/retention', retentionRoutes);
 
 apiRouter.get('/health', (req, res) => {
   res.json({
