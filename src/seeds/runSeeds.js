@@ -6,14 +6,16 @@ import { runExtensionSeeds } from './runExtensionSeeds.js';
 export async function runSeeds() {
   console.log('[Seeds] Seeding realistic enterprise dealership dataset...');
   await initDb();
-  const { dealership, users, vehicles, leads } = await getCoreSeedData();
+  const { dealership, dealerships, users, vehicles, leads } = await getCoreSeedData();
   const { testDrives, quotations, bookings, finance, payments, gatepasses, claims, usedCars, handovers, salesTargets } = getWorkflowSeedData();
 
-  await query(
-    `INSERT INTO dealerships (id, name, city, tier, oem_brand, address)
-     VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO NOTHING;`,
-    [dealership.id, dealership.name, dealership.city, dealership.tier, dealership.oem_brand, dealership.address]
-  );
+  for (const d of (dealerships || [dealership])) {
+    await query(
+      `INSERT INTO dealerships (id, name, city, tier, oem_brand, address)
+       VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO NOTHING;`,
+      [d.id, d.name, d.city, d.tier, d.oem_brand, d.address]
+    );
+  }
 
   for (const u of users) {
     await query(

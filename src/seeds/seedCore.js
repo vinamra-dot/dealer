@@ -4,14 +4,33 @@ export async function getCoreSeedData() {
   const passwordHash = await bcrypt.hash('Password@123', 10);
   const dId = 'dealership-apex-01';
 
-  const dealership = {
-    id: dId,
-    name: 'Apex Mobility Motors',
-    city: 'Mumbai & Pune',
-    tier: 'Tier-1',
-    oem_brand: 'Tata Motors',
-    address: 'Apex Towers, New Link Road, Andheri West, Mumbai & Baner, Pune, Maharashtra 400053'
-  };
+  const dealerships = [
+    {
+      id: 'dealership-apex-01',
+      name: 'Apex Mobility Motors',
+      city: 'Mumbai',
+      tier: 'Tier-1',
+      oem_brand: 'Tata Motors',
+      address: 'Apex Towers, New Link Road, Andheri West, Mumbai, Maharashtra 400053'
+    },
+    {
+      id: 'dealership-apex-02',
+      name: 'Apex Mobility Motors (Pune)',
+      city: 'Pune',
+      tier: 'Tier-1',
+      oem_brand: 'Tata Motors',
+      address: 'Baner - Pashan Link Road, Baner, Pune, Maharashtra 411045'
+    },
+    {
+      id: 'dealership-apex-03',
+      name: 'Apex Mobility Motors (Navi Mumbai)',
+      city: 'Navi Mumbai',
+      tier: 'Tier-1',
+      oem_brand: 'Tata Motors',
+      address: 'Sector 17, Palm Beach Road, Vashi, Navi Mumbai, Maharashtra 400703'
+    }
+  ];
+  const dealership = dealerships[0];
 
   const users = [
     { id: 'usr-ceo', name: 'Rajesh Singhania', email: 'ceo@apexmotors.com', role: 'SYSTEM_ADMIN', phone: '+91-9829011111' },
@@ -52,5 +71,5 @@ export async function getCoreSeedData() {
     { id: 'lead-09', customer_name: 'Harish Gehlot', phone: '+91-9829555666', email: 'harish.g@gmail.com', source: 'OEM_DMS_SYNC', interested_model: 'Altroz', budget: 1050000, status: 'NEW', assigned_to_user_id: 'usr-sm', telecaller_user_id: 'usr-tc', remarks: 'Inquired about CNG twin cylinder availability.' }
   ].map(l => ({ ...l, dealership_id: dId }));
 
-  return { dealership, users, vehicles, leads };
+  return { dealership, dealerships, users, vehicles, leads };
 }
